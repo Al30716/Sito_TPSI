@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Comparativo: Cascata vs Spirale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        header {
+            background: #6377a3;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .model-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .model-section:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th, 
+        .comparison-table td {
+            padding: 1.2rem;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: #6377a3;
+            color: white;
+            font-weight: 600;
+        }
+
+        .feature-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 0.2rem;
+        }
+
+        .pro {
+            background: #70a0ce;
+            color: #ffffff;
+        }
+
+        .against {
+            background: #566ebd;
+            color: #ffffff;
+        }
+
+        .example-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 4px solid #6377a3;
+            transition: transform 0.2s;
+        }
+
+        .example-card:hover {
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            color: #1e3a8a;
+            margin-bottom: 1.5rem;
+            font-size: 2.2em;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        h2:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.4em;
+            height: 1.2em;
+            width: 5px;
+            background: #6377a3;
+            border-radius: 3px;
+        }
+
+        h3 {
+            color: #6377a3;
+            margin: 1.5rem 0;
+            font-size: 1.4em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            margin-right: 0.5rem;
+        }
+
+        .methodology {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .method-step {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        footer {
+            background: #6377a3;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Correzione formattazione liste */
+        .example-card ul {
+            padding-left: 1.5rem;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .example-card li {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .example-card p {
+            margin-bottom: 0.8rem;
+        }
+
+        .method-step ol,
+        .method-step ul {
+            padding-left: 1.2rem;
+            text-align: left;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .method-step li {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h2 {
+                font-size: 1.8em;
+            }
+            
+            .model-section {
+                padding: 1.5rem;
+            }
+
+            .method-step {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="icon fas fa-project-diagram"></i>Modelli di Sviluppo Software</h1>
+        <div class="nav-links">
+            <a href="#cascata"><i class="fas fa-water"></i> Cascata</a>
+            <a href="#spirale"><i class="fas fa-redo-alt"></i> Spirale</a>
+            <a href="#confronto"><i class="fas fa-balance-scale"></i> Confronto</a>
+            <a href="#esempi"><i class="fas fa-lightbulb"></i> Esempi reali</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Modello a Cascata -->
+        <div class="model-section" id="cascata">
+            <h2>Modello a Cascata</h2>
+            
+            <div class="methodology">
+                <div class="method-step">
+                    <h3><i class="fas fa-clipboard-list"></i> Fasi Principali</h3>
+                    <ul>
+                        <li>Raccolta Requisiti</li>
+                        <li>Progettazione Sistema</li>
+                        <li>Implementazione</li>
+                        <li>Validazione</li>
+                        <li>Manutenzione</li>
+                    </ul>
+                </div>
+                
+                <div class="method-step">
+                    <h3><i class="fas fa-chart-line"></i> Metriche Chiave</h3>
+                    <ul>
+                        <li>Tempi di sviluppo: 6-12 mesi</li>
+                        <li>Documentazione: 40% dello sforzo</li>
+                        <li>Rischio: Alto post-implementazione</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Vantaggi Principali</h3>
+            <div class="feature-badge pro"><i class="fas fa-check-circle"></i> Struttura chiara e prevedibile</div>
+            <div class="feature-badge pro"><i class="fas fa-check-circle"></i> Documentazione completa</div>
+            <div class="feature-badge pro"><i class="fas fa-check-circle"></i> Budget controllato</div>
+
+            <h3>Sfide</h3>
+            <div class="feature-badge against"><i class="fas fa-exclamation-triangle"></i> Difficoltà nei cambiamenti</div>
+            <div class="feature-badge against"><i class="fas fa-exclamation-triangle"></i> Feedback tardivo</div>
+            <div class="feature-badge against"><i class="fas fa-exclamation-triangle"></i> Testing finale</div>
+        </div>
+
+        <!-- Modello a Spirale -->
+        <div class="model-section" id="spirale">
+            <h2>Modello a Spirale</h2>
+            
+            <div class="methodology">
+                <div class="method-step">
+                    <h3><i class="fas fa-sync-alt"></i> Ciclo Iterativo</h3>
+                    <ul>
+                        <li>Identificazione obiettivi</li>
+                        <li>Analisi dei rischi</li>
+                        <li>Sviluppo e validazione</li>
+                        <li>Pianificazione ciclo successivo</li>
+                    </ul>
+                </div>
+                
+                <div class="method-step">
+                    <h3><i class="fas fa-shield-alt"></i> Gestione Rischio</h3>
+                    <ul>
+                        <li>Valutazione continua</li>
+                        <li>Prototipazione rapida</li>
+                        <li>Revisioni incrementali</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Punti di Forza</h3>
+            <div class="feature-badge pro"><i class="fas fa-check-circle"></i> Adattabilità</div>
+            <div class="feature-badge pro"><i class="fas fa-check-circle"></i> Mitigazione rischi</div>
+            <div class="feature-badge pro"><i class="fas fa-check-circle"></i> Coinvolgimento clienti</div>
+
+            <h3>Limitazioni</h3>
+            <div class="feature-badge against"><i class="fas fa-exclamation-triangle"></i> Costi complessivi</div>
+            <div class="feature-badge against"><i class="fas fa-exclamation-triangle"></i> Competenze specialistiche</div>
+            <div class="feature-badge against"><i class="fas fa-exclamation-triangle"></i> Durata imprevedibile</div>
+        </div>
+
+        <!-- Confronto -->
+        <div class="model-section" id="confronto">
+            <h2>Analisi Comparativa</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th style="width: 30%">Aspetto</th>
+                    <th style="width: 35%">Cascata</th>
+                    <th style="width: 35%">Spirale</th>
+                </tr>
+                <tr>
+                    <td>Ciclo di vita</td>
+                    <td>Lineare monolitico</td>
+                    <td>Iterativo evolutivo</td>
+                </tr>
+                <tr>
+                    <td>Flessibilità</td>
+                    <td>Rigida</td>
+                    <td>Alta</td>
+                </tr>
+                <tr>
+                    <td>Gestione rischi</td>
+                    <td>Reattiva</td>
+                    <td>Proattiva</td>
+                </tr>
+                <tr>
+                    <td>Costo iniziale</td>
+                    <td>Basso</td>
+                    <td>Medio-Alto</td>
+                </tr>
+                <tr>
+                    <td>Complessità gestionale</td>
+                    <td>Semplice</td>
+                    <td>Elevata</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Esempi -->
+        <div class="model-section" id="esempi">
+            <h2>Esempi reali</h2>
+            
+            <div class="example-card">
+                <h3><i class="fas fa-building"></i> Sistema ERP (Cascata)</h3>
+                <p><strong>Contesto:</strong> Migrazione sistema legacy in azienda manifatturiera</p>
+                <p><strong>Implementazione:</strong></p>
+                <ul>
+                    <li>Analisi requisiti: 3 mesi</li>
+                    <li>Sviluppo personalizzazioni: 8 mesi</li>
+                    <li>Rollout: 2 mesi</li>
+                </ul>
+                <p><strong>Risultato:</strong> Implementazione riuscita ma costi aggiuntivi per modifiche post-implementazione</p>
+            </div>
+
+            <div class="example-card">
+                <h3><i class="fas fa-heartbeat"></i> Piattaforma Telemedicina (Spirale)</h3>
+                <p><strong>Contesto:</strong> Sviluppo sistema di monitoraggio pazienti</p>
+                <p><strong>Implementazione:</strong></p>
+                <ul>
+                    <li>4 cicli di sviluppo</li>
+                    <li>Prototipi intermedi validati</li>
+                    <li>Integrazione normative durante lo sviluppo</li>
+                </ul>
+                <p><strong>Risultato:</strong> Time-to-market ridotto del 30% con migliore aderenza ai bisogni utente</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Patti Alessandro - Chiara Finali - Brambilla Antonio - Ciseria Gabriele - Riondino Alessia </p>
+    </footer>
+</body>
+</html>
